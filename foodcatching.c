@@ -117,4 +117,5 @@ int main(){
         printf("points = %d\n",points);
         map();
     }
+return 0;
 }
