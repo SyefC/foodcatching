@@ -1,38 +1,79 @@
-#include<stdio.h>
-#include<string.h>
-#include<conio.h>
-#include<stdlib.h>
-#include<time.h>
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-int points = 0;
-int fruit_x; int fruit_y;
-char arr[4][11] = {
-    "           "
- ,  "           "
- ,  "           "
- ,  "           "};
- //////////////////////////////////////////////////////////////
- ////////////////////////////////////(//////////////////////////
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <conio.h>
+///////////////////////////////////////////////////////////
+char arr[5][20] ={
+   "                   ",
+   "                   ",
+   "                   ",
+   "                   ",
+   "                   "
+};
+int x;
+int y;
+int player_y = 0;
+int player_x = 0;
 
-void generateFruit(){
-  fruit_x = rand() % 5;
-  fruit_y = rand() % 13;
-  if(fruit_x >= 4 || fruit_y >= 11){
-      fruit_x = 2;
-      fruit_y = 10;
-  }
-  while(arr[fruit_x][fruit_y] != ' '){
-    fruit_x = rand() % 3;
-    fruit_y = rand() % 11;
-  }
-  arr[fruit_x][fruit_y] = 'F';
+int point = 0;
+
+void MoveR(){
+    if(player_y < 19){
+        arr[player_x][player_y] = ' ';
+        player_y++;
+        arr[player_x][player_y] = '>';
+    }
 }
- void map(){
-    for(int x = 0; x < 4; x++){
-        for(int y = 0; y < 11; y++){
-            if(arr[x][y] == 'F'){
-                 printf("\033[31mF\033[0m"); // Print 'F' in red
+
+void MoveL(){
+    if(player_y > 0){
+        arr[player_x][player_y] = ' ';
+        player_y--;
+        arr[player_x][player_y] = '<';
+    }
+}
+
+void MoveD(){
+    if(player_x < 4){
+        arr[player_x][player_y] = ' ';
+        player_x++;
+        arr[player_x][player_y] = '|';
+    }
+}
+
+void MoveU(){
+    if(player_x > 0){
+        arr[player_x][player_y] = ' ';
+        player_x--;
+        arr[player_x][player_y] = '^';
+    }
+}
+
+void generatefood(){
+     x = rand() % 5;
+     y = rand() % 22;
+     if(y > 19){
+             x = rand() % 5;
+             y = rand() % 22;
+     }
+    if(arr[x][y] != ' '){
+        if(y > 19){
+             x = rand() % 5;
+             y = rand() % 22;
+     }
+     else{
+ x = rand() % 5;
+y = rand() % 22;
+     }
+    }
+    arr[x][y] = 'F';
+}
+
+void generatemap(){
+    for(int x = 0; x < 5; x++){
+        for(int y = 0; y < 20; y++){
+            if(arr[x][y] == 'O'){
+                system("color 1");
             }
             else{
             printf("%c",arr[x][y]);
@@ -40,82 +81,48 @@ void generateFruit(){
         }
         printf("\n");
     }
- }
-  int fruit_x;
-  int fruit_y;
-///////////////////////////////s
-    ////////////////////////////////
-int main(){
-    system("cls");
-    srand(time(NULL));     
-    int snake_x = 1; int snake_y = 5;
-    printf("x = %d y = %d\n",snake_x,snake_y);
-    map();
-    generateFruit();
-     void Movedown(){
-    snake_x++;
-    arr[snake_x][snake_y] = '*';
- }
-  void Moveup(){
-    snake_x--;
-    arr[snake_x][snake_y] = '*';
- }
-  void Moveright(){
-    snake_y++;
-    arr[snake_x][snake_y] = '*';
- }
-  void Moveleft(){
-    snake_y--;
-    arr[snake_x][snake_y] = '*';
- }
-    while(1){
-         int a = getch();
-        switch(a){
-            case 'a':
-           if(snake_y > 0){
-           arr[snake_x][snake_y] = ' ';
-           Moveleft();
-             if(snake_x == fruit_x && snake_y == fruit_y){
-                points++;
-                generateFruit();
-            }
-           }
-            break;
-            case 'd':
-            if(snake_y < 10){
-                arr[snake_x][snake_y] = ' ';
-               Moveright();
-                 if(snake_x == fruit_x && snake_y == fruit_y){
-                points++;
-                     generateFruit();
-            }
-           }
-            break;
-           case 'w':
-           if(snake_x > 0){
-            arr[snake_x][snake_y] = ' ';
-            Moveup();
-              if(snake_x == fruit_x && snake_y == fruit_y){
-                points++;
-                     generateFruit();
-            }
-           }
-           break;
-           case 's':
-           if(snake_x < 3){
-            arr[snake_x][snake_y] = ' ';
-            Movedown();
-            if(snake_x == fruit_x && snake_y == fruit_y){
-                points++;
-             generateFruit();
-            }
-           }
-           break;
-         }
-        system("cls");
-        printf("x = %d y = %d\n",snake_x,snake_y);
-        printf("points = %d\n",points);
-        map();
-    }
-return 0;
 }
+    int main(){
+        srand(time(NULL));
+        generatefood();
+        generatemap();
+     while(1){
+        int a = getch(); 
+        switch(a){
+            case 'd':
+            MoveR();
+            if(player_x == x && player_y == y){
+                point++;
+                generatefood();
+            }
+            break;
+            case 'a':
+            MoveL();
+             if(player_x == x && player_y == y){
+                point++;
+                generatefood();
+            }
+            break;
+            case 's':
+            MoveD();
+             if(player_x == x && player_y == y){
+                point++;
+                generatefood();
+            }
+            break;
+            case 'w':
+            MoveU();
+             if(player_x == x && player_y == y){
+                point++;
+                generatefood();
+            }
+            break;
+            case ';':
+            return 0;
+        }
+        system("cls");
+        printf("points = %d\n",point);
+        generatemap();
+     }
+     return 0;
+    }
