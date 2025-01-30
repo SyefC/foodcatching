@@ -121,6 +121,7 @@ void generatemap(){
             return 0;
         }
         system("cls");
+        printf("Location: x = %d y = %d",player_x,player_y);
         printf("points = %d\n",point);
         generatemap();
      }
