@@ -1,6 +1,6 @@
 Food Catching V.2.0 🍗🍕🍝
--Windows Support
--Ubuntu Linux Support
+•Windows Support
+•Ubuntu-Linux Support
 -------------------------------------------------------------  
 A game in which a person catches food, and we will play as the character key.  
 ------------------------------------------------------------  
